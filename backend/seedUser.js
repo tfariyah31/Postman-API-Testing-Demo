@@ -17,23 +17,36 @@ const seed = async () => {
 
     await User.create([
       {
-        name : 'test1234',
-        username: 'testtest1234',
-        email : 'testt1234@gmail.com',
+        name : 'User A',
+        username: 'usera',
+        email : 'usera@gmail.com',
+        password: 'password',
+      },
+      {
+        name : 'DupNew User',
+        username: 'dupNewUser',
+        email : 'dnewUser@example.com',
         password: 'password',
       },
     ]);
 
     console.log('User seeded');
-    const foundUser = await User.findOne({ username: 'testtest123' });
+    const foundUser = await User.findOne({ username: 'usera' });
     if (!foundUser) {
       throw new Error('Verification failed: User not found in database');
     }
 
+    const foundUser2 = await User.findOne({ username: 'dupNewUser' });
+    if (!foundUser2) {
+      throw new Error('Verification failed: Second user not found in database');
+    }
+
     console.log('Database verification successful:');
     console.log(JSON.stringify(foundUser.toObject(), null, 2));
+    console.log(JSON.stringify(foundUser2.toObject(), null, 2));
 
-    console.log('Password verification successful:', await bcrypt.compare('password4', foundUser.password));
+    console.log('Password verification successful (usera):', await bcrypt.compare('password', foundUser.password));
+    console.log('Password verification successful (dupNewUser):', await bcrypt.compare('password', foundUser2.password));
     await mongoose.disconnect();
   } catch (error) {
     console.error('Seeding failed:', error);

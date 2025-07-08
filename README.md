@@ -18,7 +18,7 @@ Postman-API-Testing-Demo/
 │       └── api-tests.yml 
 ├── README.md
 ```
----
+
 
 ## 🚀 Getting the Backend Up and Running
 
@@ -110,6 +110,11 @@ The Postman collection includes tests for:
 ✅ Authorization 
 
 ✅ Session Management 
+
+
+
+---
+
 
 ### 👨‍💻 Author
 👤 Tasnim Fariyah

@@ -784,7 +784,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2Q2ODUxOTM2YTg4ZTQyNWI1ZjExNjQiLCJpYXQiOjE3NTE5MzE3ODEsImV4cCI6MTc1MTkzNTM4MX0.VH5BcMnYZkcBCw2D5Qlx43naPTeHrR5JUILLZpNexQs",
+								"value": "bearer [valid_token]",
 								"type": "text",
 								"disabled": true
 							}

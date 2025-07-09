@@ -1,11 +1,14 @@
 name: Run Postman API Tests
-'on':
+
+on:
   push:
     branches:
       - main
+
 jobs:
   test:
     runs-on: ubuntu-latest
+
     services:
       mongo:
         image: mongo
@@ -13,44 +16,51 @@ jobs:
           - '27017:27017'
         options: >-
           --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'" 
-          --health-interval 10s  --health-timeout 5s  --health-retries 5
+          --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
-      - name: "\U0001F4E5 Checkout code"
+      - name: Checkout code
         uses: actions/checkout@v3
-      - name: "\U0001F6E0 Set up Node.js"
+
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 18
-          cache: npm
-      - name: "\U0001F527 Set up backend environment"
+
+      - name: Set up backend environment
         working-directory: ./backend
         run: |
           npm install
           echo "PORT=5000" >> .env
           echo "MONGO_URI=mongodb://localhost:27017/mywebapp" >> .env
           echo "JWT_SECRET=yourtestsecret" >> .env
-      - name: "\U0001F680 Start backend server"
+
+      - name: Start backend server
         working-directory: ./backend
         run: |
           nohup node server.js > backend.log 2>&1 &
           sleep 5
           cat backend.log
-      - name: ⏳ Wait for backend to be ready
+
+      - name: Wait for backend to be ready
         run: |
           npx wait-on tcp:5000
           curl -v http://localhost:5000 || true
-      - name: "\U0001F331 Seed database"
+
+      - name: Seed database
         working-directory: ./backend
         run: node seedUser.js
-      - name: "\U0001F52C Install Newman"
+
+      - name: Install Newman
         run: npm install -g newman
-      - name: "\U0001F9EA Run Postman API Tests"
-        run: >
-          newman run
-          postman-tests/SimpleWebApp-API-Testing.postman_collection.json \
+
+      - name: Run Postman API Tests
+        run: |
+          newman run postman-tests/SimpleWebApp-API-Testing.postman_collection.json \
             -e postman-tests/SimpleWebApp.postman_environment.json \
             -r cli,html --reporter-html-export TestResults/newman-report.html
-      - name: "\U0001F4E4 Upload Newman Report"
+
+      - name: Upload Newman Report
         uses: actions/upload-artifact@v4
         with:
           name: newman-report

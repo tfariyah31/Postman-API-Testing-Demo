@@ -33,6 +33,7 @@ const seed = async () => {
         username: 'blocked_user',
         email : 'blockedUser@gmail.com',
         password: 'password',
+        isBlocked: true, 
       },
     ]);
 

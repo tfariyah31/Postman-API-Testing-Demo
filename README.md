@@ -119,6 +119,11 @@ The Postman collection includes tests for:
 
 ---
 
+### 📊 Newman HTML Report Preview
+
+<img src="newman-report.png" width="600" height="350">
+
+
 
 ### 👨‍💻 Author
 👤 Tasnim Fariyah

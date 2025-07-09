@@ -47,12 +47,19 @@ const seed = async () => {
       throw new Error('Verification failed: Second user not found in database');
     }
 
+    const foundUser3 = await User.findOne({ username: 'blocked_user' });
+    if (!foundUser3) {
+      throw new Error('Verification failed: Third user not found in database');
+    }
+
     console.log('Database verification successful:');
     console.log(JSON.stringify(foundUser.toObject(), null, 2));
     console.log(JSON.stringify(foundUser2.toObject(), null, 2));
+    console.log(JSON.stringify(foundUser3.toObject(), null, 2));
 
     console.log('Password verification successful (usera):', await bcrypt.compare('password', foundUser.password));
     console.log('Password verification successful (dupNewUser):', await bcrypt.compare('password', foundUser2.password));
+    console.log('Password verification successful (blocked_user):', await bcrypt.compare('password', foundUser3.password));
     await mongoose.disconnect();
   } catch (error) {
     console.error('Seeding failed:', error);

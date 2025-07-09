@@ -62,7 +62,6 @@ jobs:
       - name: Run Postman API Tests
         run: |
           newman run postman/SimpleWebApp-API-Testing.postman_collection.json \ 
-            -e postman/SimpleWebApp.postman_environment.json \
             -r cli,html \
             --reporter-html-export TestResults/newman-report.html
 

@@ -57,7 +57,7 @@ jobs:
         run: npm install -g newman
         
       - name: Show environment file
-        run: cat postman-tests/SimpleWebApp.postman_environment.json
+        run: cat postman/SimpleWebApp.postman_environment.json
 
       - name: Run Postman API Tests
         run: |

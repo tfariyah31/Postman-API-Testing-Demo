@@ -82,7 +82,6 @@ Install Newman globally if you haven’t:
 ```bash
 npm install -g newman
 ```
-
 ### ▶️ Run the Postman collection:
 
 ```bash
@@ -95,6 +94,8 @@ newman run postman/SimpleWebApp-API-Testing.postman_collection.json \
 
 💡 The HTML report will be saved in the TestResults/ folder.
 
+### Test Cases
+[Test Case Descriptions](./postman/README.md)
 
 ### 🔄 Continuous Integration with GitHub Actions
 This project includes a GitHub Actions workflow that:

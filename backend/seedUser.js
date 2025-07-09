@@ -28,6 +28,12 @@ const seed = async () => {
         email : 'dnewUser@example.com',
         password: 'password',
       },
+      {
+        name : 'Blocked User',
+        username: 'blocked_user',
+        email : 'blockedUser@gmail.com',
+        password: 'password',
+      },
     ]);
 
     console.log('User seeded');

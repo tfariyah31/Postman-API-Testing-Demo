@@ -1,0 +1,74 @@
+name: Run Postman API Tests
+
+# This workflow runs Postman API tests on every push to the main branch.
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand(\"ping\")'" 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🛠 Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: 📦 Install root dependencies (if any)
+        run: npm install || true  # in case root has no package.json
+
+      - name: 🔧 Set up backend environment
+        working-directory: ./backend
+        run: |
+          npm install
+          echo "PORT=5000" >> .env
+          echo "MONGO_URI=mongodb://localhost:27017/mywebapp" >> .env
+          echo "JWT_SECRET=yourtestsecret" >> .env
+
+      - name: 🚀 Start backend server
+        working-directory: ./backend
+        run: |
+          nohup node server.js > backend.log 2>&1 &
+          sleep 5
+          cat backend.log
+
+      - name: ⏳ Wait for backend to be ready
+        run: |
+          npx wait-on tcp:5000
+          curl -v http://localhost:5000 || true
+
+      - name: 🌱 Seed database
+        working-directory: ./backend
+        run: node seedUser.js
+
+      - name: 🔬 Install Newman
+        run: npm install -g newman
+
+      - name: 🧪 Run Postman API Tests
+        run: |
+          newman run postman-tests/SimpleWebApp-API-Testing.postman_collection.json \
+            -e postman-tests/SimpleWebApp.postman_environment.json \
+            -r cli,html --reporter-html-export TestResults/newman-report.html
+
+      - name: 📤 Upload Newman Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: newman-report
+          path: TestResults/newman-report.html

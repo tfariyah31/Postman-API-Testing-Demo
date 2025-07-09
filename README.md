@@ -1,5 +1,5 @@
 # Postman API Testing Demo
-![API Tests](https://github.com/tfariyah31/Postman-API-Testing-Demo/actions/workflows/api-tests.yml/badge.svg)
+![API Tests](https://github.com/tfariyah31/Postman-API-Testing-Demo/actions/workflows/main.yml/badge.svg)
 
 This project demonstrates API testing using **Postman**, **Newman**, and **GitHub Actions**, tested against a locally hosted Node.js backend application.
 

@@ -42,11 +42,13 @@ jobs:
           sleep 5
           cat backend.log
 
+      - name: ⏳ Install wait-on
+        run: npm install -g wait-on
       - name: Wait for backend to be ready
         run: |
           npx wait-on tcp:5000
           curl -v http://localhost:5000 || true
-
+      
       - name: Seed database
         working-directory: ./backend
         run: node seedUser.js
